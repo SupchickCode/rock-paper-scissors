@@ -3,8 +3,8 @@ import IController from '../interface/controller.interface';
 import IndexService from '../services/index.service';
 
 export default class IndexController implements IController {
-  
-  public path: string = '/tasks/';
+
+  public path: string = '';
   public router = express.Router();
   public service = new IndexService();
 
@@ -16,7 +16,7 @@ export default class IndexController implements IController {
     this.router.get(this.path, this.index);
   }
 
-  index = async (request: express.Request, response: express.Response) => {
-    response.send(await this.service.index);
+  index = (request: express.Request, response: express.Response) => {
+    response.render("index");
   }
 }

@@ -1,17 +1,15 @@
 import App from './app';
-import TasksController from './controllers/tasks.controller';
+import IndexContoller from './controllers/index.controller';
 
 require('dotenv').config();
 
 const port: number | string = process.env.PORT || 3000;
-const mongo_url = process.env.MONGO_URL || "mongodb://localhost:27017/db_name";
 
 const app = new App(
   [
-    new TasksController(),
+    new IndexContoller(),
   ],
-  port,
-  mongo_url
+  port
 );
 
 app.listen();

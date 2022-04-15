@@ -5,12 +5,10 @@ import IController from './interface/controller.interface';
 export default class App {
     public app: express.Application;
     public port: number | string;
-    public mongo_url: string;
 
-    constructor(controllers: IController[], port: number | string, mongo_url: string) {
+    constructor(controllers: IController[], port: number | string) {
         this.app = express();
         this.port = port;
-        this.mongo_url = mongo_url;
 
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
@@ -18,11 +16,13 @@ export default class App {
 
     private initializeMiddlewares() {
         this.app.use(bodyParser.json());
+        this.app.set('view engine', 'ejs')
+        this.app.use(express.static('public'))
     }
 
     private initializeControllers(controllers: IController[]) {
         controllers.forEach((controller: IController) => {
-            this.app.use('/api/', controller.router);
+            this.app.use('/', controller.router);
         });
     }
 

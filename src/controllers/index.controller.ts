@@ -15,7 +15,6 @@ export default class IndexController implements IController {
   }
 
   index = (request: express.Request, response: express.Response) => {
-    console.log('Cookies: ', request.cookies)
     response.render("index");
   }
 }

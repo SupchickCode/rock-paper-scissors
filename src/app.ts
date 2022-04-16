@@ -1,6 +1,9 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import * as bodyParser from 'body-parser';
 import IController from './interface/controller.interface';
+import CookiesMiddleware from "./middleware/cookies.middleware";
 
 export default class App {
     public app: express.Application;
@@ -18,6 +21,8 @@ export default class App {
         this.app.use(bodyParser.json());
         this.app.set('view engine', 'ejs')
         this.app.use(express.static('public'))
+        this.app.use(cookieParser());
+        this.app.use();
     }
 
     private initializeControllers(controllers: IController[]) {

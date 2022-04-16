@@ -1,12 +1,10 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
-import IndexService from '../services/index.service';
 
 export default class IndexController implements IController {
 
   public path: string = '';
   public router = express.Router();
-  public service = new IndexService();
 
   constructor() {
     this.intializeRoutes();
@@ -17,6 +15,7 @@ export default class IndexController implements IController {
   }
 
   index = (request: express.Request, response: express.Response) => {
+    console.log('Cookies: ', request.cookies)
     response.render("index");
   }
 }

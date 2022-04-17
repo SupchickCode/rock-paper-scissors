@@ -4,22 +4,17 @@ import * as bodyParser from 'body-parser';
 import IController from './interface/controller.interface';
 import cookiesMiddleware from './middleware/cookies.middleware';
 import { Client } from 'pg';
+import databaseConfig from "./config/database";
 
 export default class App {
     public app: express.Application;
     public port: number | string;
-    public pg_config: object;
+    public databaseConfig: object;
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();
         this.port = port;
-        this.pg_config = {
-            host: process.env.PG_HOST,
-            user: process.env.PG_USER,
-            port: process.env.PG_PORT,
-            password: process.env.PG_PASSWORD,
-            database: process.env.PG_DATABASE
-        };
+        this.databaseConfig = databaseConfig;
 
         this.initializeConnectionToDB();
         this.initializeMiddlewares();
@@ -42,7 +37,7 @@ export default class App {
 
     private async initializeConnectionToDB() {
         try {
-            const client = new Client(this.pg_config);
+            const client = new Client(this.databaseConfig);
 
             await client.connect();
         } catch (error) {

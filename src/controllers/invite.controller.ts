@@ -1,5 +1,6 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
+import roomModel from '../models/room.model';
 
 export default class InviteController implements IController {
 
@@ -15,6 +16,6 @@ export default class InviteController implements IController {
   }
 
   createRoom = (request: express.Request, response: express.Response) => {
-    
+    roomModel.create()
   }
 }

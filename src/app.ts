@@ -16,7 +16,7 @@ export default class App {
         this.port = port;
         this.databaseConfig = databaseConfig;
 
-        this.initializeConnectionToDB();
+        // this.initializeConnectionToDB();
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
     }
@@ -35,15 +35,15 @@ export default class App {
         });
     }
 
-    private async initializeConnectionToDB() {
-        try {
-            const client = new Client(this.databaseConfig);
+    // private async initializeConnectionToDB() {
+    //     try {
+    //         const client = new Client(this.databaseConfig);
 
-            await client.connect();
-        } catch (error) {
-            console.log('DB connected errors >> ' + error);
-        }
-    }
+    //         await client.connect();
+    //     } catch (error) {
+    //         console.log('DB connected errors >> ' + error);
+    //     }
+    // }
 
     public listen() {
         this.app.listen(this.port, () => {

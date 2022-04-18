@@ -1,6 +1,7 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
 import roomModel from '../models/room.model';
+import { getRandomStr } from '../helper/string.helper';
 
 export default class InviteController implements IController {
 
@@ -16,13 +17,12 @@ export default class InviteController implements IController {
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {
-    await roomModel.create({
-      name: 'xxx'
-    })
-    
-    
-    .catch((err) => {
-      console.log(err);
-    })
+    try {
+      await roomModel.create({
+        name: getRandomStr()
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

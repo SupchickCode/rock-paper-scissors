@@ -1,12 +1,5 @@
-import {Request, Response, NextFunction} from 'express';
-
-const getRandomStr = (): string => {
-    return (Math.random() + 1).toString(36).substring(2);
-}
-
-const getRandomToken = (): string => {
-    return getRandomStr() + getRandomStr() + getRandomStr();
-}
+import { Request, Response, NextFunction } from 'express';
+import { getRandomToken } from '../helper/string.helper';
 
 const cookiesMiddleware = () => (request: Request, response: Response, next: NextFunction) => {
     if (!request.cookies.guest_token) {

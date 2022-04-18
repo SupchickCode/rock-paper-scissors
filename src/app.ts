@@ -9,7 +9,7 @@ import databaseConfig from "./config/database";
 export default class App {
     public app: express.Application;
     public port: number | string;
-    public databaseConfig: object;
+    public databaseConfig: string;
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();

@@ -5,12 +5,15 @@ const roomModel = sequelize.define('rooms', {
     id: {
         field: 'id',
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
     },
 
     name: {
         field: 'name',
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     }
 }, { timestamps: true });
 

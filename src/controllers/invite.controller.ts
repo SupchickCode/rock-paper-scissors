@@ -15,7 +15,14 @@ export default class InviteController implements IController {
     this.router.post(this.path, this.createRoom);
   }
 
-  createRoom = (request: express.Request, response: express.Response) => {
-    roomModel.create()
+  createRoom = async (request: express.Request, response: express.Response) => {
+    await roomModel.create({
+      name: 'xxx'
+    })
+    
+    
+    .catch((err) => {
+      console.log(err);
+    })
   }
 }

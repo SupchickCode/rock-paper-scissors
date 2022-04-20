@@ -13,4 +13,4 @@ const app = new App(
   port
 );
 
-app.listen();
+app.listenSocket().listen();

@@ -3,20 +3,15 @@ import cookieParser from "cookie-parser";
 import * as bodyParser from 'body-parser';
 import IController from './interface/controller.interface';
 import cookiesMiddleware from './middleware/cookies.middleware';
-import { Client } from 'pg';
-import databaseConfig from "./config/database";
 
 export default class App {
     public app: express.Application;
     public port: number | string;
-    public databaseConfig: string;
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();
         this.port = port;
-        this.databaseConfig = databaseConfig;
 
-        // this.initializeConnectionToDB();
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
     }
@@ -34,16 +29,6 @@ export default class App {
             this.app.use('/', controller.router);
         });
     }
-
-    // private async initializeConnectionToDB() {
-    //     try {
-    //         const client = new Client(this.databaseConfig);
-
-    //         await client.connect();
-    //     } catch (error) {
-    //         console.log('DB connected errors >> ' + error);
-    //     }
-    // }
 
     public listen() {
         this.app.listen(this.port, () => {

@@ -18,9 +18,13 @@ export default class RoomController implements IController {
   }
 
   showRoom = async (request: express.Request, response: express.Response) => {
-    const roomName = request.params.name
+    const roomName: string = request.params.name;
+    const roomLink: string = this.getRoomLink(request, roomName);
 
-    response.render('room', { roomName: roomName });
+    response.render('room', {
+      roomName: roomName,
+      roomLink: roomLink
+    });
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {
@@ -36,5 +40,9 @@ export default class RoomController implements IController {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  private getRoomLink = (request: express.Request, roomName: string): string => {
+    return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
   }
 }

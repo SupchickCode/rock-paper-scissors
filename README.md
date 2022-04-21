@@ -17,3 +17,5 @@
 - socket.IO
 - фронт без разницы
 - БД mongo или postresql или даже redis 
+
+# Благодарность за фронт вот этому человек (https://github.com/Kushkergast)

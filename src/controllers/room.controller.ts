@@ -38,6 +38,9 @@ export default class RoomController implements IController {
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {
+    // TODO AFTER CREATE ROOM I NEED DO SOCKET CONNECTION FOR 2 PLAYERS
+    // AND START WAIT FOR CONNECTION FROM SECOND PLAYER OR SMTH LIKE THIS
+
     try {
       const roomName: string = getRandomStr()
       const guestToken: string = request.cookies.guest_token;
@@ -59,6 +62,6 @@ export default class RoomController implements IController {
   }
 
   private removeOldRomm = () => {
-
+    // TODO REMOVE ROOM IF IT MORE THAT 5 (ONE PERSON)
   }
 }

@@ -18,20 +18,29 @@ export default class RoomController implements IController {
   }
 
   showRoom = async (request: express.Request, response: express.Response) => {
+    const guestToken: string = request.cookies.guest_token;
+    const room = await roomModel.findOne({
+      where: {
+        owner: guestToken
+      }
+    });
+
     const roomName: string = request.params.name;
-    const roomLink: string = this.getRoomLink(request, roomName);
+    const roomLink: string = this.getRoomLink(request, room.name);
 
     response.render('room', {
-      roomName: roomName,
+      room: room.name,
       roomLink: roomLink
     });
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {
     try {
-      const roomName = getRandomStr()
+      const roomName: string = getRandomStr()
+      const guestToken: string = request.cookies.guest_token;
 
       await roomModel.create({
+        owner: guestToken,
         name: roomName
       })
 
@@ -44,5 +53,9 @@ export default class RoomController implements IController {
 
   private getRoomLink = (request: express.Request, roomName: string): string => {
     return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
+  }
+
+  private removeOldRomm = () => {
+
   }
 }

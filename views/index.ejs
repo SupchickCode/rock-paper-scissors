@@ -23,12 +23,21 @@
             <div class="d-flex justify-content-center mt-3">
                 <form action="/room" method="post">
                     <button type="submit" class="btn btn-success btn-lg">
-                        Пригласить друга
+                        Создать комнату для игры
                     </button>
                 </form>
-
-                <p id="output"></p>
             </div>
+            <% if(rooms){ %>
+                <div>
+                    <% for(var i=0; i <rooms.length; i++) {%>
+                        <div>
+                            <a href="/room/<%- rooms[i].name -%>">Комнате №
+                                <%- rooms[i].name -%>
+                            </a>
+                        </div>
+                        <% } %>
+                </div>
+                <% } %>
         </div>
     </div>
 

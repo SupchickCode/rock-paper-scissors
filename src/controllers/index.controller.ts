@@ -1,5 +1,6 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
+import roomModel from '../models/room.model';
 
 export default class IndexController implements IController {
 
@@ -14,7 +15,17 @@ export default class IndexController implements IController {
     this.router.get(this.path, this.index);
   }
 
-  index = (request: express.Request, response: express.Response) => {
-    response.render("index");
+  index = async (request: express.Request, response: express.Response) => {
+    const guestToken: string = request.cookies.guest_token;
+    let rooms: any[] = [];
+
+    if (guestToken) {
+      rooms = await roomModel.findAll({
+        where: {
+          owner: guestToken
+        }
+      });
+    }
+    response.render("index", { 'rooms': rooms });
   }
 }

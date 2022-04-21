@@ -9,13 +9,35 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+
             name: {
                 type: Sequelize.STRING
             },
+
+            owner: {
+                type: Sequelize.STRING
+            },
+
+            invited: {
+                type: Sequelize.STRING,
+                allowNull: true,
+            },
+
+            owner_points: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+            },
+
+            invited_points: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+            },
+
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
             },
+
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE

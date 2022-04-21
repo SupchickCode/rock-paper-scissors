@@ -1,7 +1,7 @@
 import sequelize from '../database/sequelize';
-import Sequelize from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 
-const roomModel = sequelize.define('rooms', {
+const roomModel : any = sequelize.define('rooms', {
     id: {
         field: 'id',
         type: Sequelize.INTEGER,
@@ -32,7 +32,7 @@ const roomModel = sequelize.define('rooms', {
         type: Sequelize.INTEGER,
         allowNull: true,
     },
-    
+
     invited_points: {
         field: 'invited_points',
         type: Sequelize.INTEGER,

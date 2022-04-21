@@ -18,20 +18,23 @@ export default class RoomController implements IController {
   }
 
   showRoom = async (request: express.Request, response: express.Response) => {
-    const guestToken: string = request.cookies.guest_token;
-    const room = await roomModel.findOne({
-      where: {
-        owner: guestToken
-      }
-    });
+    try {
+      const roomName: string = request.params.name;
 
-    const roomName: string = request.params.name;
-    const roomLink: string = this.getRoomLink(request, room.name);
+      const room = await roomModel.findOne({
+        where: {
+          name: roomName
+        }
+      });
 
-    response.render('room', {
-      room: room.name,
-      roomLink: roomLink
-    });
+      response.render('room', {
+        room: room.name,
+        roomLink: this.getRoomLink(request, room.name)
+      });
+
+    } catch (error) { }
+
+    response.render('404');
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {

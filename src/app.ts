@@ -16,12 +16,27 @@ export default class App {
         this.app = express();
         this.port = port;
         this.server = http.createServer(this.app);
-        this.io = new Server(this.server, { cors: { origin: "*" } }); // Allow all
 
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
+    }
 
-        this.listenSocket();
+    public listen(): this {
+        const server = this.app.listen(this.port, () => {
+            console.log(`Server is running on http://localhost:${this.port}`);
+        });
+
+        this.initializeSocketServer(server);
+
+        return this;
+    }
+
+    public listenSocket(): this {
+        this.io.on('connection', (socket) => {
+            console.log(socket.id);
+        });
+
+        return this;
     }
 
     private initializeMiddlewares() {
@@ -38,20 +53,7 @@ export default class App {
         });
     }
 
-    public listenSocket(): this {
-        this.io.on('connection', (socket) => {
-            console.log(socket.id);
-            console.log(`IO is running`);
-        });
-
-        return this;
-    }
-
-    public listen(): this {
-        this.app.listen(this.port, () => {
-            console.log(`Server is running on http://localhost:${this.port}`);
-        });
-
-        return this;
+    private initializeSocketServer(server: http.Server) {
+        this.io = new Server(server, { cors: { origin: "*" } }); // Allow all
     }
 }

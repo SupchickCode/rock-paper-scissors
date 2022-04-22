@@ -33,7 +33,10 @@ export default class App {
 
     public listenSocket(): this {
         this.io.on('connection', (socket) => {
-            console.log(socket.id);
+            socket.on('joinRoom', (room) => {
+                console.log('ROOM JOINED');
+                socket.join(room);
+            });
         });
 
         return this;

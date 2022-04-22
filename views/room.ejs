@@ -81,9 +81,18 @@
 
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
 <script>
-    const socket = io("http://localhost:5000");
+    const host = "http://localhost:5000" // length 27
+    const socket = io(host);
+
+    getRoomName = () => {
+        return window.location.href.slice(27);
+    }
 
     socket.on('connection');
+
+    socket.emit('joinRoom', getRoomName())
+
+    console.log(getRoomName());
 </script>
 
 </html>

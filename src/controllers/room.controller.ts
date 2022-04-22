@@ -1,12 +1,13 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
 import roomModel from '../models/room.model';
-import { getRandomStr } from '../helper/string.helper';
+import RoomService from '../services/room.service';
 
 export default class RoomController implements IController {
 
   public path: string = '/room';
   public router = express.Router();
+  public service = new RoomService();
 
   constructor() {
     this.intializeRoutes();
@@ -28,7 +29,7 @@ export default class RoomController implements IController {
       });
 
       response.render('room', {
-        room: room.name,
+        room: room,
         roomLink: this.getRoomLink(request, room.name)
       });
 
@@ -40,21 +41,9 @@ export default class RoomController implements IController {
   createRoom = async (request: express.Request, response: express.Response) => {
     // TODO AFTER CREATE ROOM I NEED DO SOCKET CONNECTION FOR 2 PLAYERS
     // AND START WAIT FOR CONNECTION FROM SECOND PLAYER OR SMTH LIKE THIS
+    const roomName = await this.service.createRoom(request, response);
 
-    try {
-      const roomName: string = getRandomStr()
-      const guestToken: string = request.cookies.guest_token;
-
-      await roomModel.create({
-        owner: guestToken,
-        name: roomName
-      })
-
-      response.redirect(`/room/${roomName}`);
-
-    } catch (error) {
-      console.log(error);
-    }
+    response.redirect(`/room/${roomName}`);
   }
 
   private getRoomLink = (request: express.Request, roomName: string): string => {

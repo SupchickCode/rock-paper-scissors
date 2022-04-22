@@ -84,6 +84,7 @@
     const host = "http://localhost:5000" // length 27
     const socket = io(host);
 
+    // TODO REFACTOR THIS FUNC
     getRoomName = () => {
         return window.location.href.slice(27);
     }

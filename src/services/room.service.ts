@@ -21,7 +21,7 @@ export default class RoomService implements IRoomService {
         }
     }
 
-    showRoom = async (request: express.Request, response: express.Response) => {
+    showRoom = async (request: express.Request, response: express.Response): Promise<any | undefined> => {
         try {
             const roomName: string = request.params.name;
             const guestToken: string = request.cookies.guest_token;
@@ -32,32 +32,33 @@ export default class RoomService implements IRoomService {
                 }
             });
 
-            this.editInvitedUserToRoom(response, room, guestToken);
+            const edit = await this.editInvitedUserToRoom(response, room, guestToken);
 
-            response.render('room', {
-                room: room,
-                roomLink: this.getRoomLink(request, room.name)
-            });
+            if (!edit) {
+                if (room.owner !== guestToken &&
+                    room.invited !== null && room.invited !== guestToken) {
+                    response.render('busy');
+                }
+            }
+
+            return room;
 
         } catch (error) { }
-
-        response.render('404');
     }
 
-    private editInvitedUserToRoom = async (response: express.Response, room: any, guestToken: string) => {
+    private editInvitedUserToRoom = async (response: express.Response, room: any, guestToken: string): Promise<boolean> => {
         if (room.owner !== guestToken && room.invited === null) {
             await room.update(
                 { invited: guestToken },
             )
+
+            return true;
         }
 
-        if (room.owner !== guestToken &&
-            room.invited !== null && room.invited !== guestToken) {
-            response.render('busy');
-        }
+        return false;
     }
 
-    private getRoomLink = (request: express.Request, roomName: string): string => {
+    getRoomLink = (request: express.Request, roomName: string): string => {
         return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
     }
 

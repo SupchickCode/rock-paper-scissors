@@ -5,6 +5,8 @@ import IController from './interface/controller.interface';
 import cookiesMiddleware from './middleware/cookies.middleware';
 import { Server } from "socket.io";
 import http from 'http';
+import SocketService from './services/socket.service';
+import ISoocketService from "./interface/socker-service.interface";
 
 export default class App {
     public app: express.Application;
@@ -12,11 +14,13 @@ export default class App {
     public io: Server;
     public server: any;
     public ioRooms: object[];
+    public socketService: ISoocketService;
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();
         this.port = port;
         this.server = http.createServer(this.app);
+        this.socketService = new SocketService();
 
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
@@ -38,8 +42,10 @@ export default class App {
         let rooms: { [key: string]: any } = {};
 
         this.io.on('connection', (socket) => {
+            // Сейчас комнаты кажется не нужны ибо вся логика всеравно будет 
+            // работаеть через объект rooms так что нужно узнать как они работаю
             socket.on('join room', (roomName) => {
-                // init emply room
+                // init emply room if not exists else pass
                 rooms[roomName] = [];
 
                 socket.join(roomName);
@@ -48,8 +54,15 @@ export default class App {
             socket.on('make move', (data, callback) => {
                 rooms[data.roomName].push(data);
 
-                socket.emit('test', data)
-                console.log(rooms);
+                if (rooms[data.roomName].length >= 2) {
+                    this.socketService.findWinner(rooms, data);
+
+                    // emit event winner
+
+                    // clean room
+
+                    console.log('WIN');
+                }
             });
         });
 

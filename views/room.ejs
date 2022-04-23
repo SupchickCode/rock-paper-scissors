@@ -91,20 +91,54 @@
         return window.location.href.slice(27);
     }
 
+    getCookie = (cookieName) => {
+        let name = cookieName + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    removelistenEvents = () => {
+        document.querySelectorAll('.btn').forEach(item => {
+            item.replaceWith(item.cloneNode(true));
+        })
+    }
+
     const roomName = getRoomName();
 
     socket.on('connection');
     socket.emit('join room', roomName)
 
-    document.querySelectorAll('.btn').forEach(item => {
-        item.addEventListener('click', event => {
-            const data = {
-                guest_token: '',
-                move: event.target.getAttribute("data-type"),
-                roomName: roomName
-            }
+    listenEvents = () => {
+        document.querySelectorAll('.btn').forEach(item => {
+            item.addEventListener('click', event => {
+                const data = {
+                    guest_token: 'ohf186j8vkx1snp4oxkgoby9l25ypc',
+                    move: event.target.getAttribute("data-type"),
+                    roomName: roomName
+                }
+
+                socket.emit('make move', data)
+                removelistenEvents();
+            })
         })
-    })
+    }
+
+    listenEvents();
+
+    socket.on('test', (data) => {
+        alert(`u win ${data.roomName}`)
+    });
 </script>
 
 </html>

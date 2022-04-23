@@ -4,7 +4,7 @@ import { getRandomToken } from '../helper/string.helper';
 const cookiesMiddleware = () => (request: Request, response: Response, next: NextFunction) => {
     if (!request.cookies.guest_token) {
         response.cookie('guest_token', getRandomToken(),
-            { maxAge: 900000, httpOnly: true });
+            { maxAge: 900000 * 60, httpOnly: true });
     }
 
     next();

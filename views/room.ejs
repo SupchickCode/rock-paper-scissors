@@ -49,39 +49,41 @@
             <div class="row row-cols-1 row-cols-md-3">
                 <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
                     <button class="btn btn-reset btn-outline-warning" href='#'>
-                        <img class="img-fluid img-size" src='/img/rock1.png'>
+                        <img data-type="rock" class="img-fluid img-size" src='/img/rock1.png'>
                     </button>
                 </div>
                 <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
                     <button class="btn btn-reset btn-outline-danger" href='#'>
-                        <img class="img-fluid img-size" src='/img/scissors1.png'>
+                        <img data-type="scissors" class="img-fluid img-size" src='/img/scissors1.png'>
                     </button>
                 </div>
                 <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
                     <button class="btn btn-reset btn-outline-success" href='#'>
-                        <img class="img-fluid img-size" src='/img/paper1.png'>
+                        <img data-type="paper" class="img-fluid img-size" src='/img/paper1.png'>
                     </button>
                 </div>
             </div>
         </section>
     </div>
-    <div class="d-flex justify-content-center mt-5">
-        <h3>
-            Кинь своему другу
-        </h3>
-    </div>
+    <% if(roomLink){ %>
+        <div class="d-flex justify-content-center mt-5">
+            <h3>
+                Кинь своему другу
+            </h3>
+        </div>
 
-    <div class="d-flex justify-content-center mt-1">
-        <h3>
-            <%- roomLink -%>
-        </h3>
-    </div>
+        <div class="d-flex justify-content-center mt-1">
+            <h3>
+                <%- roomLink -%>
+            </h3>
+        </div>
+        <% } %>
 </body>
 
 
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
 <script>
-    const host = "http://localhost:5000" // length 27
+    const host = "http://localhost:5000" // string length 27
     const socket = io(host);
 
     // TODO REFACTOR THIS FUNC
@@ -89,11 +91,20 @@
         return window.location.href.slice(27);
     }
 
+    const roomName = getRoomName();
+
     socket.on('connection');
+    socket.emit('join room', roomName)
 
-    socket.emit('joinRoom', getRoomName())
-
-    console.log(getRoomName());
+    document.querySelectorAll('.btn').forEach(item => {
+        item.addEventListener('click', event => {
+            const data = {
+                guest_token: '',
+                move: event.target.getAttribute("data-type"),
+                roomName: roomName
+            }
+        })
+    })
 </script>
 
 </html>

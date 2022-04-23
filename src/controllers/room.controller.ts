@@ -1,6 +1,5 @@
 import * as express from 'express';
 import IController from '../interface/controller.interface';
-import roomModel from '../models/room.model';
 import RoomService from '../services/room.service';
 
 export default class RoomController implements IController {
@@ -19,12 +18,16 @@ export default class RoomController implements IController {
   }
 
   showRoom = async (request: express.Request, response: express.Response) => {
-    const room: any = await this.service.showRoom(request, response);
+    const room: any = await this.service.getRoom(request, response);
+    const guestToken: string = request.cookies.guest_token;
+
+    const roomLink: string | null =
+      guestToken === room.owner ? this.service.getRoomLink(request, room.name) : null;
 
     if (room) {
       response.render('room', {
         room: room,
-        roomLink: this.service.getRoomLink(request, room.name)
+        roomLink: roomLink
       });
     }
 

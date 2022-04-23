@@ -6,7 +6,9 @@ import IRoomService from '../interface/room-service.interface';
 export default class RoomService implements IRoomService {
     createRoom = async (request: express.Request, response: express.Response): Promise<string | undefined> => {
         try {
-            const roomName: string = getRandomStr()
+            this.removeOldRoom();
+
+            const roomName: string = getRandomStr();
             const guestToken: string = request.cookies.guest_token;
 
             await roomModel.create({
@@ -21,7 +23,7 @@ export default class RoomService implements IRoomService {
         }
     }
 
-    showRoom = async (request: express.Request, response: express.Response): Promise<any | undefined> => {
+    getRoom = async (request: express.Request, response: express.Response): Promise<any | undefined> => {
         try {
             const roomName: string = request.params.name;
             const guestToken: string = request.cookies.guest_token;
@@ -32,9 +34,9 @@ export default class RoomService implements IRoomService {
                 }
             });
 
-            const edit = await this.editInvitedUserToRoom(response, room, guestToken);
+            const editSuccess: boolean = await this.editInvitedUserToRoom(response, room, guestToken);
 
-            if (!edit) {
+            if (!editSuccess) {
                 if (room.owner !== guestToken &&
                     room.invited !== null && room.invited !== guestToken) {
                     response.render('busy');
@@ -62,7 +64,7 @@ export default class RoomService implements IRoomService {
         return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
     }
 
-    private removeOldRomm = () => {
+    private removeOldRoom = () => {
         // TODO REMOVE ROOM IF IT MORE THAT 5 (ONE PERSON)
     }
 }

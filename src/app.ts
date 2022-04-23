@@ -11,6 +11,7 @@ export default class App {
     public port: number | string;
     public io: Server;
     public server: any;
+    public ioRooms : object[];
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();
@@ -33,9 +34,16 @@ export default class App {
 
     public listenSocket(): this {
         this.io.on('connection', (socket) => {
-            socket.on('joinRoom', (room) => {
-                console.log(`ROOM: ${room} JOINED`);
-                socket.join(room);
+            socket.on('join room', (roomName, callback) => {
+                socket.join(roomName);
+
+                console.log(`ROOM ${roomName} JOINED`);
+            });
+
+
+            socket.on('make move', (data, callback) => {
+                
+                console.log(`User make move`);
             });
         });
 

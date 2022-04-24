@@ -122,6 +122,9 @@
     listenEvents = () => {
         document.querySelectorAll('.btn').forEach(item => {
             item.addEventListener('click', event => {
+
+                console.log('click');
+
                 const data = {
                     guest_token: 'ohf186j8vkx1snp4oxkgoby9l25ypc',
                     move: event.target.getAttribute("data-type"),
@@ -135,6 +138,10 @@
     }
 
     listenEvents();
+
+    socket.on('round end', (data) => {
+        console.log(data);
+    });
 </script>
 
 </html>

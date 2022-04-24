@@ -5,8 +5,8 @@ import IController from './interface/controller.interface';
 import cookiesMiddleware from './middleware/cookies.middleware';
 import { Server } from "socket.io";
 import http from 'http';
-import SocketService from './services/socket.service';
-import ISoocketService from "./interface/socker-service.interface";
+import GameService from "./services/game.service";
+import IGameService from "./interface/game-service.interface";
 
 export default class App {
     public app: express.Application;
@@ -14,13 +14,13 @@ export default class App {
     public io: Server;
     public server: any;
     public ioRooms: object[];
-    public socketService: ISoocketService;
+    public gameService: IGameService;
 
     constructor(controllers: IController[], port: number | string) {
         this.app = express();
         this.port = port;
         this.server = http.createServer(this.app);
-        this.socketService = new SocketService();
+        this.gameService = new GameService();
 
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
@@ -45,9 +45,12 @@ export default class App {
             // Сейчас комнаты кажется не нужны ибо вся логика всеравно будет 
             // работаеть через объект rooms так что нужно узнать как они работаю
             socket.on('join room', (roomName) => {
-                // init emply room if not exists else pass
-                rooms[roomName] = [];
+                if (!(roomName in rooms)) {
+                    rooms[roomName] = [];
+                }
 
+
+                console.log(rooms[roomName]);
                 socket.join(roomName);
             });
 
@@ -55,17 +58,18 @@ export default class App {
                 rooms[data.roomName].push(data);
 
                 if (rooms[data.roomName].length >= 2) {
-                    this.socketService.findWinner(rooms, data);
+                    const move = this.gameService.findWinnerMove(rooms, data);
+                    
+                    socket.to(data.roomName).emit('round end', move);
 
-                    // emit event winner
-
-                    // clean room
-
-                    console.log('WIN');
+                    // Remove all moves
+                    // rooms[data.roomName] = [];
                 }
+
+                console.log(rooms);
             });
         });
-
+        
         return this;
     }
 

@@ -42,15 +42,11 @@ export default class App {
         let rooms: { [key: string]: any } = {};
 
         this.io.on('connection', (socket) => {
-            // Сейчас комнаты кажется не нужны ибо вся логика всеравно будет 
-            // работаеть через объект rooms так что нужно узнать как они работаю
             socket.on('join room', (roomName) => {
                 if (!(roomName in rooms)) {
                     rooms[roomName] = [];
                 }
 
-
-                console.log(rooms[roomName]);
                 socket.join(roomName);
             });
 
@@ -59,17 +55,14 @@ export default class App {
 
                 if (rooms[data.roomName].length >= 2) {
                     const move = this.gameService.findWinnerMove(rooms, data);
-                    
-                    socket.to(data.roomName).emit('round end', move);
+                    this.io.to(data.roomName).emit('round end', move);
 
-                    // Remove all moves
-                    // rooms[data.roomName] = [];
+                    // Clean moves
+                    rooms[data.roomName] = [];
                 }
-
-                console.log(rooms);
             });
         });
-        
+
         return this;
     }
 

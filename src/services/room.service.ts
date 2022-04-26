@@ -2,25 +2,28 @@ import * as express from 'express';
 import { getRandomStr } from '../helper/string.helper';
 import roomModel from '../models/room.model';
 import IRoomService from '../interface/room-service.interface';
+import sequelize from '../database/sequelize';
+import { QueryTypes } from 'sequelize';
 
 export default class RoomService implements IRoomService {
-    createRoom = async (request: express.Request, response: express.Response): Promise<string | undefined> => {
+    createRoom = async (request: express.Request, response: express.Response): Promise<any | boolean> => {
         try {
-            this.removeOldRoom();
-
             const roomName: string = getRandomStr();
             const guestToken: string = request.cookies.guest_token;
 
-            await roomModel.create({
-                owner: guestToken,
-                name: roomName
-            })
+            if (await this.onlyFiveRooms(guestToken)) {
+                await roomModel.create({
+                    owner: guestToken,
+                    name: roomName
+                })
 
-            return roomName;
-
+                return roomName;
+            }
         } catch (error) {
-            console.log(error);
+            console.log(">> " + error);
         }
+
+        return false;
     }
 
     getRoom = async (request: express.Request, response: express.Response): Promise<any | undefined> => {
@@ -64,7 +67,20 @@ export default class RoomService implements IRoomService {
         return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
     }
 
-    private removeOldRoom = () => {
-        // TODO REMOVE ROOM IF IT MORE THAT 5 (ONE PERSON)
+    private onlyFiveRooms = async (guestToken: string): Promise<boolean> => {
+        try {
+            const data: any = await sequelize.query(`SELECT COUNT(name) FROM rooms WHERE owner = '${guestToken}'`, { type: QueryTypes.SELECT });
+            const count = data[0].count;
+
+            if (count >= 5) {
+                return false;
+
+            }
+        } catch (error) {
+            console.log(">> " + error);
+            return false;
+        }
+
+        return true;
     }
 }

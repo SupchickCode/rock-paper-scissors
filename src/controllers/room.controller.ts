@@ -37,6 +37,10 @@ export default class RoomController implements IController {
   createRoom = async (request: express.Request, response: express.Response) => {
     const roomName = await this.service.createRoom(request, response);
 
-    response.redirect(`/room/${roomName}`);
+    if (roomName) {
+      response.redirect(`/room/${roomName}`);
+    }
+
+    response.redirect(`/`);
   }
 }

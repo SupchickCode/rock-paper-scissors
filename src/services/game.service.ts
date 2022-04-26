@@ -58,4 +58,23 @@ export default class GameService implements IGameService {
             console.log(">> " + error);
         }
     }
+
+    /**
+     * Search guest_token in moves
+     * 
+     * @param moves 
+     * @param guest_token 
+     * @returns boolean
+     */
+    alreadyMoved = (moves: typeMove[], guest_token: string): boolean => {
+        for (let i = 0; i < moves.length; i++) {
+            const move: typeMove = moves[i];
+
+            if (move.guest_token === guest_token) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

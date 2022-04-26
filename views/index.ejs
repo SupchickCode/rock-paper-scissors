@@ -58,30 +58,43 @@
         </div>
 
         <!-- Список комнат -->
-        <div class="wrapper__bottomside border-round-top col-5 mx-auto">
-            <footer class="container lobby pt-1 mb-2">
-                <div class="row">
-                    <div class="col">
-                        <h2 class="lobby__header text_theme-h2">
-                            Ваши комнаты
-                        </h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-11 mx-auto">
-                        <div class="list-group lobby__list list">
-                            <% for(var i=0; i<rooms.length; i++) {%>
-                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
-                                <% } %>
-                                    <!-- <a href="#" class="list-group-item list-group-item-action list-group-item-success">Комната номер FUCKMYASS</a>
-                                    <a href="#" class="list-group-item list-group-item-action list-group-item-danger">Комната номер KRIbMHAW</a>
-                                    <a href="#" class="list-group-item list-group-item-action list-group-item-warning">Комната номер LESHAFROMASSHOLE</a>
-                                    <a href="#" class="list-group-item list-group-item-action list-group-item-info">Комната номер YASOSUBIBU</a> -->
+
+        <% if(rooms.length > 0) { %>
+            <div class="wrapper__bottomside border-round-top col-5 mx-auto">
+                <footer class="container lobby pt-1 mb-2">
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="lobby__header text_theme-h2">
+                                Ваши комнаты
+                            </h2>
                         </div>
                     </div>
-                </div>
-            </footer>
-        </div>
+                    <div class="row">
+                        <div class="col col-11 mx-auto">
+                            <div class="list-group lobby__list list">
+                                <% for(var i=0; i<rooms.length; i++) {%>
+                                    <% if(i == 0) { %>
+                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
+                                        <% } %>
+                                            <% if(i == 1) { %>
+                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-success">Комната <%= rooms[i].name %></a>
+                                                <% } %>
+                                                    <% if(i == 2) { %>
+                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-danger">Комната <%= rooms[i].name %></a>
+                                                        <% } %>
+                                                            <% if(i == 3) { %>
+                                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-warning">Комната <%= rooms[i].name %></a>
+                                                                <% } %>
+                                                                    <% if(i == 4) { %>
+                                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-info">Комната <%= rooms[i].name %></a>
+                                                                        <% } %>
+                                                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <% } %>
     </div>
 </body>
 </body>

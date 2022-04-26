@@ -8,8 +8,6 @@ import http from 'http';
 import GameService from "./services/game.service";
 import IGameService from "./interface/game-service.interface";
 import typeMove from './types/move.type';
-import roomModel from "./models/room.model";
-import moveTypes from "./enums/move-types.enum";
 
 export default class App {
     public app: express.Application;
@@ -54,6 +52,11 @@ export default class App {
             });
 
             socket.on('make move', async (data: typeMove) => {
+                if (this.gameService.alreadyMoved(
+                    rooms[data.roomName],
+                    data.guest_token)
+                ) return;
+
                 try {
                     rooms[data.roomName].push(data);
 

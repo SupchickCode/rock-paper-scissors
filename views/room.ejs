@@ -50,27 +50,56 @@
                     <div class="row row-cols-2 row-cols-sm-3">
                         <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
                             <button class="btn btn-item btn-outline-warning buttons__item buttons__item_color-yellow" name="rock" href='#'>
-                                <img class="img-fluid img-size" src='/img/rock1.png'>
+                                <img data-type="rock" class="img-fluid img-size" src='/img/rock1.png'>
                             </button>
                         </div>
                         <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
                             <button class="btn btn-item btn-outline-danger buttons__item buttons__item_color-red" name="scissors" href='#'>
-                                <img class="img-fluid img-size" src='/img/scissors1.png'>
+                                <img data-type="scissors" class="img-fluid img-size" src='/img/scissors1.png'>
                             </button>
                         </div>
                         <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
                             <button class="btn btn-item btn-outline-success buttons__item buttons__item_color-green" name="paper" href='#'>
-                                <img class="img-fluid img-size" src='/img/paper1.png'>
+                                <img data-type="paper" class="img-fluid img-size" src='/img/paper1.png'>
                             </button>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
+
+
+        <div class="wrapper__bottomside mt-3">
+            <section class="invite-friend container mb-4">
+                <div class="row">
+                    <div class="col mx-auto text-center d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn_theme-main invite-friend__button" data-bs-container="body" data-bs-placement="top" data-toggle="popover" data-bs-trigger="focus" title="Ссылка была скопирована в буфер обмена" data-bs-content="http://cumnozhpaper.sosu/bibu"
+                            value="http://cumnozhpaper.sosu/bibu">Пригласить друга</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade result" id="result-output" tabindex="-1" aria-labelledby="result-output-label" aria-hidden="true">
+        <div class="modal-dialog modal-sm result__row">
+            <div class="modal-content result__col">
+                <div class="modal-header result__header">
+                    <h5 class="modal-title text_theme-h2 mx-auto" id="result-output-label">Результат игры:</h5>
+                </div>
+                <div class="modal-body result__body">
+                    <p class="result__output text-center">Победа!</p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+<script src="/js/modal.js"></script>
 <script>
     const host = "http://localhost:5000" // string length 27
     const socket = io(host);
@@ -132,11 +161,11 @@
 
     socket.on('round end', (data) => {
         if (data.result === 'draw') {
-            alert('DRAW')
+            showModal('Ничья')
         } else if (getCookie('guest_token') === data.guest_token) {
-            alert('U WIN')
+            showModal('Победа')
         } else {
-            alert('U LOSE')
+            showModal('Луз')
         }
 
         // edit points

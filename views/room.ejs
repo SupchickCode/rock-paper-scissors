@@ -32,14 +32,18 @@
                     <span class="score-style text-color2">
                         <p class="d-inline">Ваш счёт: </p>
                         &nbsp
-                        <p class="score_player d-inline">0</p>
+                        <p class="score_player d-inline">
+                            <%- room.owner_points -%>
+                        </p>
                     </span>
                 </div>
                 <div class="col text-nowrap d-flex justify-content-center align-items-center">
                     <span class="score-style text-color2">
                         <p class="d-inline">Очко оппонента:</p>
                         &nbsp 
-                        <p class="score_enemy d-inline">0</p>
+                        <p class="score_enemy d-inline">
+                            <%- room.invited_points -%>
+                        </p>
                     </span>
                 </div>
             </div>
@@ -140,7 +144,9 @@
     listenEvents();
 
     socket.on('round end', (data) => {
+        // update points and add events;
         console.log(data);
+        listenEvents();
     });
 </script>
 

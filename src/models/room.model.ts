@@ -30,12 +30,14 @@ const roomModel : any = sequelize.define('rooms', {
     owner_points: {
         field: 'owner_points',
         type: Sequelize.INTEGER,
+        defaultValue: 0,
         allowNull: true,
     },
 
     invited_points: {
         field: 'invited_points',
         type: Sequelize.INTEGER,
+        defaultValue: 0,
         allowNull: true,
     },
 }, { timestamps: true });

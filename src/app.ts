@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 import http from 'http';
 import GameService from "./services/game.service";
 import IGameService from "./interface/game-service.interface";
+import typeMove from './types/move.type';
 
 export default class App {
     public app: express.Application;
@@ -39,7 +40,7 @@ export default class App {
 
     public listenSocket(): this {
 
-        let rooms: { [key: string]: any } = {};
+        const rooms: { [key: string]: any } = {};
 
         this.io.on('connection', (socket) => {
             socket.on('join room', (roomName) => {
@@ -50,7 +51,7 @@ export default class App {
                 socket.join(roomName);
             });
 
-            socket.on('make move', (data, callback) => {
+            socket.on('make move', (data : typeMove) => {
                 rooms[data.roomName].push(data);
 
                 if (rooms[data.roomName].length >= 2) {

@@ -23,7 +23,10 @@ export default class IndexController implements IController {
       rooms = await roomModel.findAll({
         where: {
           owner: guestToken
-        }
+        },
+        order: [
+          ["id", "DESC"]
+        ]
       });
     }
     response.render("index", { 'rooms': rooms });

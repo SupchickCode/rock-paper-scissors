@@ -1,8 +1,7 @@
 import moveTypes from '../enums/move-types.enum';
 import IGameService from '../interface/game-service.interface';
 import typeMove from '../types/move.type';
-import sequelize from '../database/sequelize';
-import e from 'express';
+import roomModel from '../models/room.model';
 
 
 export default class GameService implements IGameService {
@@ -29,20 +28,34 @@ export default class GameService implements IGameService {
         return firstMove;
     }
 
-    updatePoints = async (move: typeMove, room: any) => {
-        let field: string = '';
+    updatePoints = async (move: typeMove, roomName: string) => {
+        try {
+            let updateParams: object;
 
-        if (move.guest_token === room.owner) {
-            field = 'owner_points';
-        } else if (move.guest_token === room.invited) {
-            field = 'owner_invited';
-        } else {
-            return null;
+            const room = await roomModel.findOne({
+                where: {
+                    name: roomName
+                }
+            });
+
+            if (move.result === 'draw') {
+                updateParams = {};
+            } else if (move.guest_token === room.invited) {
+                updateParams = { invited_points: 1 };
+            } else if (move.guest_token === room.owner) {
+                updateParams = { owner_points: 1 };
+            } else {
+                return null;
+            }
+
+            const updateRoom = await room.increment(
+                updateParams,
+                { where: { name: roomName } }
+            );
+
+            return updateRoom;
+        } catch (error) {
+            console.log(">> " + error);
         }
-
-        room.updateOne(
-            { owner_points: sequelize.literal(`${field} + 1`) },
-            { where: { name: move.roomName } }
-        );
     }
 }

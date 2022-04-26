@@ -58,20 +58,20 @@ export default class App {
                     rooms[data.roomName].push(data);
 
                     if (rooms[data.roomName].length >= 2) {
-                        const room = await roomModel.findOne({
-                            where: {
-                                name: data.roomName
-                            }
-                        });
-
                         const move: typeMove = this.gameService.findWinnerMove(rooms, data);
-                        const result = await this.gameService.updatePoints(move, room);
+                        const updateRoom = await this.gameService.updatePoints(move, data.roomName);
+                        const result: object = {
+                            guest_token: move.guest_token,
+                            invited_points: updateRoom.invited_points,
+                            owner_points: updateRoom.owner_points,
+                            result: move.result,
+                        };
 
                         this.io.to(data.roomName).emit('round end', result);
                         rooms[data.roomName] = []; // Clean moves
                     }
                 } catch (error) {
-                    console.log(">>" + error);
+                    console.log(">> " + error);
                 }
             });
         });

@@ -25,14 +25,14 @@
                 </div>
             </div>
         </header>
-        <!-- .score_player, .score_enemy - output`ы для вывода очков -->
+
         <section class="score container mb-2">
             <div class="row row-cols-1 row-cols-md-2">
                 <div class="col d-flex justify-content-center align-items-baseline">
                     <span class="score-style text-color2">
-                        <p class="d-inline" id="points_output_one">Ваш счёт: </p>
+                        <p class="d-inline">Ваш счёт: </p>
                         &nbsp
-                        <p class="score_player d-inline" id="points_output_two">
+                        <p class="score_player d-inline" id="points_output_one">
                             <%- room.owner_points -%>
                         </p>
                     </span>
@@ -41,7 +41,7 @@
                     <span class="score-style text-color2">
                         <p class="d-inline">Очко оппонента:</p>
                         &nbsp 
-                        <p class="score_enemy d-inline">
+                        <p class="score_enemy d-inline" id="points_output_two">
                             <%- room.invited_points -%>
                         </p>
                     </span>
@@ -144,8 +144,17 @@
     listenEvents();
 
     socket.on('round end', (data) => {
-        // update points;
-        console.log(data);
+        if (data.result === 'draw') {
+            alert('DRAW')
+        } else if (getCookie('guest_token') === data.guest_token) {
+            alert('U WIN')
+        } else {
+            alert('U LOSE')
+        }
+
+        // edit points
+        points_output_one.innerHTML = data.owner_points;
+        points_output_two.innerHTML = data.invited_points;
 
         listenEvents();
     });

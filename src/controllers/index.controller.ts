@@ -13,6 +13,7 @@ export default class IndexController implements IController {
 
   public intializeRoutes() {
     this.router.get(this.path, this.index);
+    this.router.get("*", this.notFount);
   }
 
   index = async (request: express.Request, response: express.Response) => {
@@ -30,5 +31,9 @@ export default class IndexController implements IController {
       });
     }
     response.render("index", { 'rooms': rooms });
+  }
+
+  notFount = (request: express.Request, response: express.Response) => {
+    response.render('404');
   }
 }

@@ -16,74 +16,59 @@
 </head>
 
 <body>
-    <div class="wrapper col-10 col-lg-5 col-md-8 mx-auto mt-2">
-
-        <header class="container py-2">
-            <div class="row">
-                <div class="col-12 text-center text-nowrap">
-                    <h2 class="text-color1">Камень ножницы бумага</h2>
-                </div>
+    <div class="wrapper col-xl-5 col-lg-6 col-md-7 col-sm-9 col-10 text-center mx-auto">
+        <div class="wrapper__topside">
+            <div class="wrapper__inner border-round-all bg_theme-main mt-3">
+                <header class="container heading py-2">
+                    <div class="row">
+                        <h1 class="heading__text text_theme-h1">Камень ножницы бумага</h1>
+                    </div>
+                </header>
+                <section class="container score mb-3">
+                    <div class="row">
+                        <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                            <span class="score__container">
+                                <p class="d-inline">Ваш счёт: </p>
+                                &nbsp
+                                <p class="score__player d-inline" id="points_output_one">
+                                    <%- room.owner_points -%>
+                                </p>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                            <span class="score__container">
+                                <p class="d-inline jopa">Очко оппонента:</p>
+                                &nbsp 
+                                <p class="score__enemy d-inline" id="points_output_two" >
+                                    <%- room.invited_points -%>
+                                </p>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+                <section class="buttons container pb-3">
+                    <div class="row row-cols-2 row-cols-sm-3">
+                        <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
+                            <button class="btn btn-item btn-outline-warning buttons__item buttons__item_color-yellow" name="rock" href='#'>
+                                <img class="img-fluid img-size" src='/img/rock1.png'>
+                            </button>
+                        </div>
+                        <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
+                            <button class="btn btn-item btn-outline-danger buttons__item buttons__item_color-red" name="scissors" href='#'>
+                                <img class="img-fluid img-size" src='/img/scissors1.png'>
+                            </button>
+                        </div>
+                        <div class="col col-6 mx-auto d-flex justify-content-center align-items-center">
+                            <button class="btn btn-item btn-outline-success buttons__item buttons__item_color-green" name="paper" href='#'>
+                                <img class="img-fluid img-size" src='/img/paper1.png'>
+                            </button>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </header>
-
-        <section class="score container mb-2">
-            <div class="row row-cols-1 row-cols-md-2">
-                <div class="col d-flex justify-content-center align-items-baseline">
-                    <span class="score-style text-color2">
-                        <p class="d-inline">Ваш счёт: </p>
-                        &nbsp
-                        <p class="score_player d-inline" id="points_output_one">
-                            <%- room.owner_points -%>
-                        </p>
-                    </span>
-                </div>
-                <div class="col text-nowrap d-flex justify-content-center align-items-center">
-                    <span class="score-style text-color2">
-                        <p class="d-inline">Очко оппонента:</p>
-                        &nbsp 
-                        <p class="score_enemy d-inline" id="points_output_two">
-                            <%- room.invited_points -%>
-                        </p>
-                    </span>
-                </div>
-            </div>
-        </section>
-
-        <section class="buttons container pb-2">
-            <div class="row row-cols-1 row-cols-md-3">
-                <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
-                    <button class="btn btn-reset btn-outline-warning" href='#'>
-                        <img data-type="rock" class="img-fluid img-size" src='/img/rock1.png'>
-                    </button>
-                </div>
-                <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
-                    <button class="btn btn-reset btn-outline-danger" href='#'>
-                        <img data-type="scissors" class="img-fluid img-size" src='/img/scissors1.png'>
-                    </button>
-                </div>
-                <div class="col col-7 mx-auto d-flex justify-content-center align-items-center">
-                    <button class="btn btn-reset btn-outline-success" href='#'>
-                        <img data-type="paper" class="img-fluid img-size" src='/img/paper1.png'>
-                    </button>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
-    <% if(roomLink){ %>
-        <div class="d-flex justify-content-center mt-5">
-            <h3>
-                Кинь своему другу
-            </h3>
-        </div>
-
-        <div class="d-flex justify-content-center mt-1">
-            <h3>
-                <%- roomLink -%>
-            </h3>
-        </div>
-        <% } %>
 </body>
-
 
 <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
 <script>
@@ -96,6 +81,8 @@
     getRoomName = () => {
         return window.location.href.slice(27);
     }
+
+    const roomName = getRoomName();
 
     getCookie = (cookieName) => {
         let name = cookieName + "=";
@@ -111,6 +98,7 @@
                 return c.substring(name.length, c.length);
             }
         }
+
         return "";
     }
 
@@ -119,11 +107,6 @@
             item.replaceWith(item.cloneNode(true));
         })
     }
-
-    const roomName = getRoomName();
-
-    socket.on('connection');
-    socket.emit('join room', roomName)
 
     listenEvents = () => {
         document.querySelectorAll('.btn').forEach(item => {
@@ -142,6 +125,10 @@
     }
 
     listenEvents();
+
+    socket.on('connection');
+
+    socket.emit('join room', roomName)
 
     socket.on('round end', (data) => {
         if (data.result === 'draw') {

@@ -74,6 +74,10 @@ export default class App {
                     console.log(">> " + error);
                 }
             });
+
+            socket.on("disconnecting", (socket : any) => {
+                console.log('LEAVE' + socket);
+            });
         });
 
         return this;

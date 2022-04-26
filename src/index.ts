@@ -7,8 +7,8 @@ const port: number | string = appConfig.port;
 
 const app = new App(
   [
-    new IndexContoller(),
     new RoomController(),
+    new IndexContoller(),
   ],
   port
 );

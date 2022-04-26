@@ -11,36 +11,77 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="base-block">
-            <div class="d-flex justify-content-center mt-5">
-                <div class="title">
-                    <h3>Игра камень ножницы бумага</h3>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center mt-3">
-                <form action="/room" method="post">
-                    <button type="submit" class="btn btn-success btn-lg">
-                        Создать комнату для игры
-                    </button>
-                </form>
-            </div>
-            <% if(rooms){ %>
-                <div>
-                    <% for(var i=0; i <rooms.length; i++) {%>
-                        <div>
-                            <a href="/room/<%- rooms[i].name -%>">Комнате №
-                                <%- rooms[i].name -%>
-                            </a>
+    <div class="wrapper col-xl-5 col-lg-6 col-md-7 col-sm-9 col-10 text-center mx-auto">
+        <div class="wrapper__topside">
+            <div class="wrapper__inner border-round-bottom bg_theme-main pt-2 pb-4">
+                <!-- Заголовок - название игры -->
+                <header class="container heading mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="heading__text text_theme-h1">Камень ножницы бумага</h1>
                         </div>
-                        <% } %>
+                    </div>
+                    <div class="row">
+                        <div class="col col-10 mx-auto">
+                            <div class="heading__shadow"></div>
+                        </div>
+                    </div>
+                </header>
+                <!-- Правила игры -->
+                <section class="container rules mb-4">
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="rules__header text_theme-h2 pb-2">Правила</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-11 mx-auto">
+                            <ul class="list-group list-group-flush rules__list list">
+                                <li class="list-group-item list__item">Создайте комнату</li>
+                                <li class="list-group-item list__item">Второе правило</li>
+                                <li class="list-group-item list__item">Третье правило</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <!-- Кнопка создать комнату -->
+                <section class="container create-lobby">
+                    <div class="row">
+                        <div class="col-6 d-grid gap-1 mx-auto">
+                            <button type="button" class="btn create-lobby__btn btn_theme-main">Создать комнату</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Список комнат -->
+        <div class="wrapper__bottomside border-round-top col-5 mx-auto">
+            <footer class="container lobby pt-1 mb-2">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="lobby__header text_theme-h2">
+                            Ваши комнаты
+                        </h2>
+                    </div>
                 </div>
-                <% } %>
+                <div class="row">
+                    <div class="col col-11 mx-auto">
+                        <div class="list-group lobby__list list">
+                            <% for(var i=0; i<rooms.length; i++) {%>
+                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
+                                <% } %>
+                                    <!-- <a href="#" class="list-group-item list-group-item-action list-group-item-success">Комната номер FUCKMYASS</a>
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-danger">Комната номер KRIbMHAW</a>
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-warning">Комната номер LESHAFROMASSHOLE</a>
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-info">Комната номер YASOSUBIBU</a> -->
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
-
-    <script src="js/invite_btn.js"></script>
+</body>
 </body>
 
 </html>

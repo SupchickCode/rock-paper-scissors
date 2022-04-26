@@ -30,9 +30,9 @@
             <div class="row row-cols-1 row-cols-md-2">
                 <div class="col d-flex justify-content-center align-items-baseline">
                     <span class="score-style text-color2">
-                        <p class="d-inline">Ваш счёт: </p>
+                        <p class="d-inline" id="points_output_one">Ваш счёт: </p>
                         &nbsp
-                        <p class="score_player d-inline">
+                        <p class="score_player d-inline" id="points_output_two">
                             <%- room.owner_points -%>
                         </p>
                     </span>
@@ -89,6 +89,8 @@
 <script>
     const host = "http://localhost:5000" // string length 27
     const socket = io(host);
+    const points_output_one = document.getElementById("points_output_one");
+    const points_output_two = document.getElementById("points_output_two");
 
     // TODO REFACTOR THIS FUNC
     getRoomName = () => {
@@ -126,16 +128,14 @@
     listenEvents = () => {
         document.querySelectorAll('.btn').forEach(item => {
             item.addEventListener('click', event => {
-
-                console.log('click');
-
                 const data = {
-                    guest_token: 'ohf186j8vkx1snp4oxkgoby9l25ypc',
+                    guest_token: getCookie('guest_token'),
                     move: event.target.getAttribute("data-type"),
                     roomName: roomName
                 }
 
                 socket.emit('make move', data)
+
                 removelistenEvents();
             })
         })
@@ -144,8 +144,9 @@
     listenEvents();
 
     socket.on('round end', (data) => {
-        // update points and add events;
+        // update points;
         console.log(data);
+
         listenEvents();
     });
 </script>

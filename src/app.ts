@@ -8,6 +8,8 @@ import http from 'http';
 import GameService from "./services/game.service";
 import IGameService from "./interface/game-service.interface";
 import typeMove from './types/move.type';
+import roomModel from "./models/room.model";
+import moveTypes from "./enums/move-types.enum";
 
 export default class App {
     public app: express.Application;
@@ -51,15 +53,25 @@ export default class App {
                 socket.join(roomName);
             });
 
-            socket.on('make move', (data : typeMove) => {
-                rooms[data.roomName].push(data);
+            socket.on('make move', async (data: typeMove) => {
+                try {
+                    rooms[data.roomName].push(data);
 
-                if (rooms[data.roomName].length >= 2) {
-                    const move = this.gameService.findWinnerMove(rooms, data);
-                    this.io.to(data.roomName).emit('round end', move);
+                    if (rooms[data.roomName].length >= 2) {
+                        const room = await roomModel.findOne({
+                            where: {
+                                name: data.roomName
+                            }
+                        });
 
-                    // Clean moves
-                    rooms[data.roomName] = [];
+                        const move: typeMove = this.gameService.findWinnerMove(rooms, data);
+                        const result = await this.gameService.updatePoints(move, room);
+
+                        this.io.to(data.roomName).emit('round end', result);
+                        rooms[data.roomName] = []; // Clean moves
+                    }
+                } catch (error) {
+                    console.log(">>" + error);
                 }
             });
         });

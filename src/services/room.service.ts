@@ -6,7 +6,7 @@ import sequelize from '../database/sequelize';
 import { QueryTypes } from 'sequelize';
 
 export default class RoomService implements IRoomService {
-    createRoom = async (request: express.Request, response: express.Response): Promise<any | boolean> => {
+    createRoom = async (request: express.Request): Promise<any | boolean> => {
         try {
             const roomName: string = getRandomStr();
             const guestToken: string = request.cookies.guest_token;
@@ -37,7 +37,7 @@ export default class RoomService implements IRoomService {
                 }
             });
 
-            const editSuccess: boolean = await this.editInvitedUserToRoom(response, room, guestToken);
+            const editSuccess: boolean = await this.editInvitedUserToRoom(room, guestToken);
 
             if (!editSuccess) {
                 if (room.owner !== guestToken &&
@@ -51,7 +51,30 @@ export default class RoomService implements IRoomService {
         } catch (error) { }
     }
 
-    private editInvitedUserToRoom = async (response: express.Response, room: any, guestToken: string): Promise<boolean> => {
+    deleteRoom = async (request: express.Request): Promise<any | undefined> => {
+        try {
+            const roomName: string = request.params.roomName;
+            const guestToken: string = request.cookies.guest_token;
+
+            const room = await roomModel.delete({
+                where: {
+                    owner: guestToken,
+                    name: roomName
+                }
+            });
+
+            console.log(room);
+
+            return room;
+
+        } catch (error) { }
+    }
+
+    getRoomLink = (request: express.Request, roomName: string): string => {
+        return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
+    }
+
+    private editInvitedUserToRoom = async (room: any, guestToken: string): Promise<boolean> => {
         if (room.owner !== guestToken && room.invited === null) {
             await room.update(
                 { invited: guestToken },
@@ -61,10 +84,6 @@ export default class RoomService implements IRoomService {
         }
 
         return false;
-    }
-
-    getRoomLink = (request: express.Request, roomName: string): string => {
-        return request.protocol + '://' + request.get('host') + '/room/' + roomName;;
     }
 
     private onlyFiveRooms = async (guestToken: string): Promise<boolean> => {

@@ -5,6 +5,14 @@ import roomModel from '../models/room.model';
 
 
 export default class GameService implements IGameService {
+    /**
+    * Search winner move in the room 
+    * 
+    * @param rooms  
+    * @param data 
+    * 
+    * @returns typeMove
+    */
     findWinnerMove = (rooms: { [key: string]: any }, data: any): typeMove => {
         const room: typeMove[] = rooms[data.roomName];
         const firstMove: typeMove = room[0];
@@ -28,10 +36,18 @@ export default class GameService implements IGameService {
         return firstMove;
     }
 
+    /**
+    * Edit points that belongs to room
+    * 
+    * @param moves 
+    * @param roomName 
+    * 
+    * @returns any | undefined
+    */
     updatePoints = async (move: typeMove, roomName: string) => {
         try {
             let updateParams: object;
-            
+
             const room = await roomModel.findOne({
                 where: {
                     name: roomName
@@ -64,6 +80,7 @@ export default class GameService implements IGameService {
      * 
      * @param moves 
      * @param guest_token 
+     * 
      * @returns boolean
      */
     alreadyMoved = (moves: typeMove[], guest_token: string): boolean => {

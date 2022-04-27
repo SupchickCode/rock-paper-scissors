@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const host = window.location.origin;
     const socket = io(host);
+
     socket.on('connection');
 
     const points_output_one = document.getElementById("points_output_one");
@@ -63,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     socket.on('round end', (data) => {
-
         const token = getCookie('guest_token');
+
         if (data.result === 'draw') {
             showModal('Ничья')
         } else if (token === data.guest_token) {

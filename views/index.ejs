@@ -34,51 +34,54 @@
                 <section class="container create-lobby">
                     <div class="row">
                         <div class="col-6 d-grid gap-1 mx-auto d-flex justify-content-center align-items-center">
-                            <form action="/room" method="post">
-                                <button href="/room" type="submit" class="btn create-lobby__btn btn_theme-main">Создать комнату</button>
-                            </form>
+                            <button id="create-btn" href="/room" type="click" class="btn create-lobby__btn btn_theme-main">Создать комнату</button>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-        <% if(rooms.length > 0) { %>
-            <div class="wrapper__bottomside border-round-top col-5 mx-auto">
-                <footer class="container lobby pt-1 mb-2">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="lobby__header text_theme-h2">
-                                Ваши комнаты
-                            </h2>
-                        </div>
+        <div class="wrapper__bottomside border-round-top col-5 mx-auto">
+            <footer class="container lobby pt-1 mb-2">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="lobby__header text_theme-h2">
+                            Ваши комнаты
+                        </h2>
                     </div>
-                    <div class="row">
-                        <div class="col col-11 mx-auto">
-                            <div class="list-group lobby__list list">
-                                <% for(var i=0; i<rooms.length; i++) {%>
-                                    <% if(i == 0) { %>
-                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
-                                        <% } %>
-                                            <% if(i == 1) { %>
-                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-success">Комната <%= rooms[i].name %></a>
-                                                <% } %>
-                                                    <% if(i == 2) { %>
-                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-danger">Комната <%= rooms[i].name %></a>
-                                                        <% } %>
-                                                            <% if(i == 3) { %>
-                                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-warning">Комната <%= rooms[i].name %></a>
-                                                                <% } %>
-                                                                    <% if(i == 4) { %>
-                                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-info">Комната <%= rooms[i].name %></a>
+                </div>
+                <div class="row">
+                    <div class="col col-11 mx-auto">
+                        <div class="list-group lobby__list list">
+                            <span id="output-rooms"></span>
+                            <% for(var i=0; i<rooms.length; i++) {%>
+                                <% if(i == 0) { %>
+                                    <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
+                                    <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                    <% } %>
+                                        <% if(i == 1) { %>
+                                            <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-success">Комната <%= rooms[i].name %></a>
+                                            <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                            <% } %>
+                                                <% if(i == 2) { %>
+                                                    <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-danger">Комната <%= rooms[i].name %></a>
+                                                    <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                                    <% } %>
+                                                        <% if(i == 3) { %>
+                                                            <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-warning">Комната <%= rooms[i].name %></a>
+                                                            <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                                            <% } %>
+                                                                <% if(i == 4) { %>
+                                                                    <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-info">Комната <%= rooms[i].name %></a>
+                                                                    <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                                                    <% } %>
                                                                         <% } %>
-                                                                            <% } %>
-                            </div>
                         </div>
                     </div>
-                </footer>
-            </div>
-            <% } %>
+                </div>
+            </footer>
+        </div>
     </div>
     </body>
+    <script src="/js/rooms.js"></script>
 
     </html>

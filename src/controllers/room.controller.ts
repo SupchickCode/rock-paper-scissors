@@ -15,6 +15,7 @@ export default class RoomController implements IController {
   public intializeRoutes() {
     this.router.get(this.path + '/:name', this.showRoom);
     this.router.post(this.path, this.createRoom);
+    this.router.delete(this.path, this.deleteRoom);
   }
 
   showRoom = async (request: express.Request, response: express.Response) => {
@@ -28,7 +29,7 @@ export default class RoomController implements IController {
       response.render('room', {
         room: room,
         roomLink: roomLink,
-        guestToken : guestToken
+        guestToken: guestToken
       });
     }
 
@@ -36,12 +37,26 @@ export default class RoomController implements IController {
   }
 
   createRoom = async (request: express.Request, response: express.Response) => {
-    const roomName = await this.service.createRoom(request, response);
+    const roomName = await this.service.createRoom(request);
 
     if (roomName) {
-      response.redirect(`/room/${roomName}`);
+      response.json({
+        data: roomName,
+        status: 201
+      });
     }
 
-    response.redirect(`/`);
+    response.json({
+      data: "У вас уже и так 5 комнат больше нельзя",
+      status: 422
+    });
+  }
+
+  deleteRoom = async (request: express.Request, response: express.Response) => {
+    this.service.deleteRoom(request);
+
+    response.json({
+      status: 200
+    });
   }
 }

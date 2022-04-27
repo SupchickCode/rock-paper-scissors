@@ -3,7 +3,6 @@ import IGameService from '../interface/game-service.interface';
 import typeMove from '../types/move.type';
 import roomModel from '../models/room.model';
 
-
 export default class GameService implements IGameService {
     /**
     * Search winner move in the room 

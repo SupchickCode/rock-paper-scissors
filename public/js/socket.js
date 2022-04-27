@@ -1,18 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const host = "http://localhost:5000" // string length 27
+    const host = "http://192.168.0.103:5000"
     const socket = io(host);
     socket.on('connection');
 
     const points_output_one = document.getElementById("points_output_one");
     const points_output_two = document.getElementById("points_output_two");
 
-    getRoomName = () => { // TODO REFACTOR THIS FUNC
-        return window.location.href.slice(27);
+    getRoomName = () => {
+        return window.location.href.slice(-11);
     }
 
     const roomName = getRoomName();
-
-    socket.emit('join room', roomName)
 
     getCookie = (cookieName) => {
         let name = cookieName + "=";
@@ -31,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         return "";
     }
+
+    socket.emit('join room', { roomName: roomName, guest_token: getCookie('guest_token') })
 
     removelistenEvents = () => {
         document.querySelectorAll('.btn').forEach(item => {
@@ -55,6 +55,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     listenEvents();
+
+    socket.on('joined', (data) => {
+        if (data.guest_token !== getCookie('guest_token')) {
+            showModal('Друг подключился', 'joined')
+        }
+    })
 
     socket.on('round end', (data) => {
         if (data.result === 'draw') {

@@ -1,4 +1,4 @@
-<%- include('layouts/head', {title: 'Камень ножницы бумага', bootstrap5 : true}) -%>
+<%- include('layouts/head', {title: `Комната № ${room.name}`, bootstrap5 : true}) -%>
     <div class="wrapper col-xl-5 col-lg-6 col-md-7 col-sm-9 col-10 text-center mx-auto">
         <div class="wrapper__topside">
             <div class="wrapper__inner border-round-all bg_theme-main mt-3">
@@ -8,26 +8,50 @@
                     </div>
                 </header>
                 <section class="container score mb-3">
-                    <div class="row">
-                        <div class="col-sm-6 d-flex justify-content-center align-items-center">
-                            <span class="score__container">
-                                <p class="d-inline">Ваш счёт: </p>
-                                &nbsp
-                                <p class="score__player d-inline" id="points_output_one">
-                                    <%- room.owner_points -%>
-                                </p>
-                            </span>
+                    <% if (room.owner === guestToken ) { %>
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                                <span class="score__container">
+                                    <p class="d-inline">Ваш счёт: </p>
+                                    &nbsp
+                                    <p class="score__player d-inline" id="points_output_one">
+                                        <%- room.owner_points -%>
+                                    </p>
+                                </span>
+                            </div>
+                            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                                <span class="score__container">
+                                    <p class="d-inline jopa">Счёт оппонента:</p>
+                                    &nbsp 
+                                    <p class="score__enemy d-inline" id="points_output_two" >
+                                        <%- room.invited_points -%>
+                                    </p>
+                                </span>
+                            </div>
                         </div>
-                        <div class="col-sm-6 d-flex justify-content-center align-items-center">
-                            <span class="score__container">
-                                <p class="d-inline jopa">Очко оппонента:</p>
-                                &nbsp 
-                                <p class="score__enemy d-inline" id="points_output_two" >
-                                    <%- room.invited_points -%>
-                                </p>
-                            </span>
-                        </div>
-                    </div>
+                        <% } else { %>
+                            <div class="row">
+                                <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                                    <span class="score__container">
+                                        <p class="d-inline">Ваш счёт: </p>
+                                        &nbsp
+                                        <p class="score__player d-inline" id="points_output_one">
+                            
+                                            <%- room.invited_points -%>
+                                        </p>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                                    <span class="score__container">
+                                        <p class="d-inline jopa">Счёт оппонента:</p>
+                                        &nbsp 
+                                        <p class="score__enemy d-inline" id="points_output_two" >
+                                            <%- room.owner_points -%>
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            <% } %>
                 </section>
                 <section class="buttons container pb-3">
                     <div class="row row-cols-2 row-cols-sm-3">
@@ -69,7 +93,22 @@
                     <h5 class="modal-title text_theme-h2 mx-auto" id="result-output-label">Результат игры:</h5>
                 </div>
                 <div class="modal-body result__body">
-                    <p class="result__output text-center">Победа!</p>
+                    <p class="result__output text-center"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade result" id="joined" tabindex="-1" aria-labelledby="result-output-label" aria-hidden="true">
+        <div class="modal-dialog modal-sm result__row">
+            <div class="modal-content result__col">
+                <div class="modal-header result__header">
+                    <h5 class="modal-title text_theme-h2 mx-auto" id="result-output-label">
+                        Статус
+                    </h5>
+                </div>
+                <div class="modal-body result__body">
+                    <p class="result__output text-center"></p>
                 </div>
             </div>
         </div>

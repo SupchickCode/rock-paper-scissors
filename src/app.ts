@@ -29,7 +29,7 @@ export default class App {
 
     public listen(): this {
         const server = this.app.listen(this.port, () => {
-            console.log(`Server is running on http://localhost:${this.port}`);
+            console.log(`Server is running on http://0.0.0.0:${this.port}`);
         });
 
         this.initializeSocketServer(server);
@@ -43,12 +43,13 @@ export default class App {
         const rooms: { [key: string]: any } = {};
 
         this.io.on('connection', (socket) => {
-            socket.on('join room', (roomName) => {
-                if (!(roomName in rooms)) {
-                    rooms[roomName] = [];
+            socket.on('join room', (data) => {
+                if (!(data.roomName in rooms)) {
+                    rooms[data.roomName] = [];
                 }
 
-                socket.join(roomName);
+                socket.join(data.roomName);
+                this.io.to(data.roomName).emit('joined', data);
             });
 
             socket.on('make move', async (data: typeMove) => {

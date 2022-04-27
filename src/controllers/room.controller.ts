@@ -27,7 +27,8 @@ export default class RoomController implements IController {
     if (room) {
       response.render('room', {
         room: room,
-        roomLink: roomLink
+        roomLink: roomLink,
+        guestToken : guestToken
       });
     }
 

@@ -5,19 +5,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     addRemoveEvents = () => {
         const btns = document.getElementsByClassName('remove-btn');
-
         Array.prototype.forEach.call(btns, (item) => {
             item.addEventListener('click', event => {
                 fetch(host + '/room', {
                         method: 'DELETE',
                         headers: {
-                            'Content-Type': 'application/json'
-                        }
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            roomName: event.target.getAttribute("date-room"),
+                        })
                     }).then((response) => {
                         return response.json();
                     })
                     .then((data) => {
-                        alert(data.status);
+                        if (data.status === 204) {
+                            event.target.parentElement.remove();
+                        }
                     });;
             })
         });
@@ -35,7 +40,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .then((data) => {
                 if (data.status === 201) {
                     output.insertAdjacentHTML("beforeBegin",
-                        `<a href="/room/${data.data}" class="list-group-item list-group-item-action list-group-item-primary">Комната ${data.data}</a><span class="remove-btn" date-room="${data.data}">Удалить</span>`)
+                        `<div>
+                            <a href="/room/${data.data}" class="list-group-item list-group-item-action list-group-item-primary">Комната ${data.data}</a>
+                            <span class="remove-btn" date-room="${data.data}">Удалить</span>
+                        </div>`)
 
                     addRemoveEvents();
 

@@ -53,17 +53,13 @@ export default class RoomService implements IRoomService {
 
     deleteRoom = async (request: express.Request): Promise<any | undefined> => {
         try {
-            const roomName: string = request.params.roomName;
-            const guestToken: string = request.cookies.guest_token;
+            const roomName: string = request.body.roomName;
 
-            const room = await roomModel.delete({
+            const room = await roomModel.destroy({
                 where: {
-                    owner: guestToken,
                     name: roomName
                 }
             });
-
-            console.log(room);
 
             return room;
 

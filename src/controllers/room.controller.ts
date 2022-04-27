@@ -56,7 +56,7 @@ export default class RoomController implements IController {
     this.service.deleteRoom(request);
 
     response.json({
-      status: 200
+      status: 204
     });
   }
 }

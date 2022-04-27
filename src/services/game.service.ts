@@ -31,7 +31,7 @@ export default class GameService implements IGameService {
     updatePoints = async (move: typeMove, roomName: string) => {
         try {
             let updateParams: object;
-
+            
             const room = await roomModel.findOne({
                 where: {
                     name: roomName

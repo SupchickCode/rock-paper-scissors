@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const host = "http://192.168.0.103:5000"
+    const host = window.location.origin;
     const socket = io(host);
     socket.on('connection');
 
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const points_output_two = document.getElementById("points_output_two");
 
     getRoomName = () => {
-        return window.location.href.slice(-11);
+        return window.location.href.slice(-10);
     }
 
     const roomName = getRoomName();

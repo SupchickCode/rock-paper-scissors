@@ -1,5 +1,11 @@
 export const getRandomStr = (): string => {
-    return (Math.random() + 1).toString(36).substring(2);
+    let result = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (let i = 0; i < 10; i++)
+      result += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return result;
 }
 
 export const getRandomToken = (): string => {

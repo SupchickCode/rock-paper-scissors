@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (data.status === 201) {
                     output.insertAdjacentHTML("beforeBegin",
                         `<div>
-                            <a href="/room/${data.data}" class="list-group-item list-group-item-action list-group-item-primary">Комната ${data.data}</a>
+                            <a href="/room/${data.data}" class="list-group-item list-group-item-action list-group-item-info">Комната ${data.data}</a>
                             <span class="remove-btn" date-room="${data.data}">Удалить</span>
                         </div>`)
 

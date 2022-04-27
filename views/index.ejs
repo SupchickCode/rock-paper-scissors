@@ -54,37 +54,11 @@
                         <div class="list-group lobby__list list">
                             <span id="output-rooms"></span>
                             <% for(var i=0; i<rooms.length; i++) {%>
-                                <% if(i == 0) { %>
-                                    <div>
-                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-primary">Комната <%= rooms[i].name %></a>
-                                        <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
-                                    </div>
-                                    <% } %>
-                                        <% if(i == 1) { %>
-                                            <div>
-                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-success">Комната <%= rooms[i].name %></a>
-                                                <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
-                                            </div>
-                                            <% } %>
-                                                <% if(i == 2) { %>
-                                                    <div>
-                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-danger">Комната <%= rooms[i].name %></a>
-                                                        <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
-                                                    </div>
-                                                    <% } %>
-                                                        <% if(i == 3) { %>
-                                                            <div>
-                                                                <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-warning">Комната <%= rooms[i].name %></a>
-                                                                <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
-                                                            </div>
-                                                            <% } %>
-                                                                <% if(i == 4) { %>
-                                                                    <div>
-                                                                        <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-info">Комната <%= rooms[i].name %></a>
-                                                                        <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
-                                                                    </div>
-                                                                    <% } %>
-                                                                        <% } %>
+                                <div>
+                                    <a href="/room/<%= rooms[i].name %>" class="list-group-item list-group-item-action list-group-item-info">Комната <%= rooms[i].name %></a>
+                                    <span class="remove-btn" date-room="<%= rooms[i].name %>">Удалить</span>
+                                </div>
+                                <% } %>
                         </div>
                     </div>
                 </div>

@@ -63,16 +63,23 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     socket.on('round end', (data) => {
+
+        const token = getCookie('guest_token');
         if (data.result === 'draw') {
             showModal('Ничья')
-        } else if (getCookie('guest_token') === data.guest_token) {
+        } else if (token === data.guest_token) {
             showModal('Выиграл')
         } else {
             showModal('Проиграл')
         }
 
-        points_output_one.innerHTML = data.owner_points;
-        points_output_two.innerHTML = data.invited_points;
+        if (token === data.guest_token) {
+            points_output_one.innerHTML = data.invited_points;
+            points_output_two.innerHTML = data.owner_points;
+        } else {
+            points_output_one.innerHTML = data.owner_points;
+            points_output_two.innerHTML = data.invited_points;
+        }
 
         listenEvents();
     });

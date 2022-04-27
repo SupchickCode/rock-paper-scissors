@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     const host = "http://localhost:5000" // string length 27
     const socket = io(host);
+    socket.on('connection');
+
     const points_output_one = document.getElementById("points_output_one");
     const points_output_two = document.getElementById("points_output_two");
 
-    // TODO REFACTOR THIS FUNC
-    getRoomName = () => {
+    getRoomName = () => { // TODO REFACTOR THIS FUNC
         return window.location.href.slice(27);
     }
 
     const roomName = getRoomName();
+
+    socket.emit('join room', roomName)
 
     getCookie = (cookieName) => {
         let name = cookieName + "=";
@@ -53,20 +56,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     listenEvents();
 
-    socket.on('connection');
-
-    socket.emit('join room', roomName)
-
     socket.on('round end', (data) => {
         if (data.result === 'draw') {
             showModal('Ничья')
         } else if (getCookie('guest_token') === data.guest_token) {
-            showModal('Победа')
+            showModal('Выиграл')
         } else {
-            showModal('Луз')
+            showModal('Проиграл')
         }
 
-        // edit points
         points_output_one.innerHTML = data.owner_points;
         points_output_two.innerHTML = data.invited_points;
 

@@ -22,11 +22,16 @@ services:
   game_psql_ts:
     image: postgres
     container_name: game_psql_ts
-    volumes:
-      - ./db/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "docker" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
     restart: always
     environment:
         POSTGRES_HOST : ${PG_HOST:-game_psql_ts}
-        POSTGRES_USER: ${PG_USER:-root}
+        POSTGRES_USER: ${PG_USER:-docker}
         POSTGRES_PASSWORD: ${PG_PASSWORD:-password}
         POSTGRES_DB: ${PG_DB:-rock_paper_scissors}
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/init.sql

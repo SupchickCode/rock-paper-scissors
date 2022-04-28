@@ -6,19 +6,25 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - nginx_ts
-      - psql_ts
+      - game_nginx_ts
+      - game_psql_ts
 
-  nginx_ts:
+  game_nginx_ts:
     image: nginx
-    container_name: nginx_ts
+    container_name: game_nginx_ts
     volumes:
-      - .congif/default.conf:/etc/nginx/conf.d/default.conf
+      - ./default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "81:80"
 
     restart: unless-stopped
 
-  psql_ts:
+  game_psql_ts:
     image: postgres
-    container_name: psql_ts
+    container_name: game_psql_ts
+    restart: always
+    environment:
+        POSTGRES_HOST : ${PG_HOST:-game_psql_ts}
+        POSTGRES_USER: ${PG_USER:-root}
+        POSTGRES_PASSWORD: ${PG_PASSWORD:-password}
+        POSTGRES_DB: ${PG_DB:-rock_paper_scissors}

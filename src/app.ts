@@ -29,7 +29,7 @@ export default class App {
 
     public listen(): this {
         const server = this.app.listen(this.port, () => {
-            console.log(`Server is running on http://0.0.0.0:${this.port}`);
+            console.log(`Server is running on http://localhost:${this.port}`);
         });
 
         this.initializeSocketServer(server);

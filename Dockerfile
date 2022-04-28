@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000:5000
 
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run" , "start:prod"]

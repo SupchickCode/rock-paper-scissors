@@ -22,6 +22,8 @@ services:
   game_psql_ts:
     image: postgres
     container_name: game_psql_ts
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d
     restart: always
     environment:
         POSTGRES_HOST : ${PG_HOST:-game_psql_ts}

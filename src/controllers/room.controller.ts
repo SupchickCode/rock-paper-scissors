@@ -22,10 +22,10 @@ export default class RoomController implements IController {
     const room: any = await this.service.getRoom(request, response);
     const guestToken: string = request.cookies.guest_token;
 
-    const roomLink: string | null =
+    if (room) {
+      const roomLink: string | null =
       guestToken === room.owner ? this.service.getRoomLink(request, room.name) : null;
 
-    if (room) {
       response.render('room', {
         room: room,
         roomLink: roomLink,

@@ -20,7 +20,3 @@
 - docker и docker-compose 
 
 Благодарность за фронт вот этому человек (https://github.com/Kushkergast)
-
-# Демо
-![photo_2022-04-29_23-15-23](https://user-images.githubusercontent.com/58991461/166063258-358f39db-9304-4f24-9f7d-85a543ff265c.jpg)
-![photo_2022-04-29_23-15-33](https://user-images.githubusercontent.com/58991461/166063262-087c0e49-7e46-4f91-b1d4-c4df273a352d.jpg)

@@ -29,7 +29,7 @@ export default class App {
 
     public listen(): this {
         const server = this.app.listen(this.port, () => {
-            console.log(`Server is running on http://localhost:${this.port}`);
+            console.log(`Server is running on http://0.0.0.0:${this.port}`);
         });
 
         this.initializeSocketServer(server);
@@ -66,6 +66,7 @@ export default class App {
                         const updateRoom = await this.gameService.updatePoints(move, data.roomName);
                         const result: object = {
                             guest_token: move.guest_token,
+                            owner_token: updateRoom.owner,
                             invited_points: updateRoom.invited_points,
                             owner_points: updateRoom.owner_points,
                             result: move.result,

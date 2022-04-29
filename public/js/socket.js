@@ -74,12 +74,12 @@ document.addEventListener("DOMContentLoaded", function() {
             showModal('Проиграл')
         }
 
-        if (token === data.guest_token) {
-            points_output_one.innerHTML = data.invited_points;
-            points_output_two.innerHTML = data.owner_points;
-        } else {
+        if (data.owner_token === token) {
             points_output_one.innerHTML = data.owner_points;
             points_output_two.innerHTML = data.invited_points;
+        } else {
+            points_output_one.innerHTML = data.invited_points;
+            points_output_two.innerHTML = data.owner_points;
         }
 
         listenEvents();
